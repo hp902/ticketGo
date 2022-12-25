@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragmentEvents"
+        android:icon="@drawable/ic_home"
+        android:title="@string/events" />
+
+    <item
+        android:id="@+id/fragmentsYourBookings"
+        android:icon="@drawable/ic_ticket"
+        android:title="@string/your_bookings" />
+
+    <item
+        android:id="@+id/fragmentAccount"
+        android:icon="@drawable/ic_user"
+        android:title="@string/account" />
+
+</menu>

@@ -3,15 +3,13 @@ package com.example.ticketgo.utils
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun main() {
-    println(Date().hours)
-    print(Date().minutes)
-}
-
-
 class DateTimeUtils {
     companion object {
 
+        /**
+         * Get the Current Date Time
+         * @return DateString in format of "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+         */
         fun getCurrentDateTime(): String {
             val simpleDateFormatFrom = SimpleDateFormat(
                 "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()
@@ -20,6 +18,13 @@ class DateTimeUtils {
             return simpleDateFormatFrom.format(Date())
         }
 
+
+        /**
+         * Convert dateString in readable format
+         * @param dateString DateString in format of "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+         * @param includeDayOfWeek Set this param to true if Day Name is needed. Default is false
+         * @return DateString eg:- 10:05 PM 25 Dec 2022
+         */
         fun convertDate(dateString: String, includeDayOfWeek: Boolean? = false): String {
             if (dateString == "") {
                 return ""
@@ -46,6 +51,12 @@ class DateTimeUtils {
             return convertedDate
         }
 
+
+        /**
+         * Get DateString of Next Day
+         * @param hourOfDay the hour of next day in 24-hours format
+         * @return Date String in format of "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+         */
         fun getNextDayTime(hourOfDay: Int): String {
             var convertedDate = ""
             try {
@@ -67,6 +78,12 @@ class DateTimeUtils {
             return convertedDate
         }
 
+
+        /**
+         * Get readable Time from Seconds
+         * @param second seconds value
+         * @return Time String eg:- 1 hour 25 minutes, 1 hour
+         */
         fun convertSecToTime(second: Int): String {
             var timeString = ""
 

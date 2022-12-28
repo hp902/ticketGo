@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ticketGo</string>
+    <string name="events">Events</string>
+    <string name="your_bookings">Your Bookings</string>
+    <string name="account">Account</string>
+    <string name="start_time"><b>Start Time:</b> %s</string>
+    <string name="duration"><b>Duration:</b> %s</string>
+    <string name="book_events">Book\nEvents</string>
+    <string name="your_n_bookings">Your \nBookings</string>
+    <string name="your_account">Your \nAccount</string>
+</resources>

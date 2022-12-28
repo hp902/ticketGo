@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_selection_color</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="android:textAppearance">@style/ChipStyle.TextAppearance</item>
+        <item name="android:textColor">@color/chip_text_selection_color</item>
+    </style>
+
+    <style name="ChipStyle.TextAppearance" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+
+    <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/red_light</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">500</item>
+        <item name="postSplashScreenTheme">@style/Theme.TicketGo.Light</item>
+    </style>
+
+    <style name="CustomText" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+</resources>

@@ -10,6 +10,7 @@ import com.example.ticketgo.databinding.ActivityMainBinding
 import com.example.ticketgo.ui.event_type.EventCategory
 import com.example.ticketgo.ui.event_type.EventType
 import com.example.ticketgo.ui.events.Event
+import com.example.ticketgo.ui.events.Seat
 import com.example.ticketgo.utils.DateTimeUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -80,7 +81,8 @@ class MainActivity : BaseActivity() {
             bannerImageUrl = "https://upload.wikimedia.org/wikipedia/en/6/66/Wednesday_Netflix_series_poster.png",
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 10),
-            eventCategory = EventCategory.COMEDY.name
+            eventCategory = EventCategory.COMEDY.name,
+            seats = getSeats()
         ),
         Event(
             eventId = 2,
@@ -89,7 +91,8 @@ class MainActivity : BaseActivity() {
             bannerImageUrl = "https://m.media-amazon.com/images/M/MV5BYjdjNzBmYjEtM2Y5My00YjI0LWJjY2YtOGQ4MjNkNmE2MDVjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_FMjpg_UX1000_.jpg",
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 11),
-            eventCategory = EventCategory.COMEDY.name
+            eventCategory = EventCategory.COMEDY.name,
+            seats = getSeats()
         ),
         Event(
             eventId = 3,
@@ -98,7 +101,8 @@ class MainActivity : BaseActivity() {
             bannerImageUrl = "https://m.media-amazon.com/images/M/MV5BYjkwZGM3NjQtNDM0ZS00Yjg3LTg1ODgtYWE3ZmNmNDBjMDI1XkEyXkFqcGdeQXVyMTM1MTE1NDMx._V1_.jpg",
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 12),
-            eventCategory = EventCategory.COMEDY.name
+            eventCategory = EventCategory.COMEDY.name,
+            seats = getSeats()
         ), Event(
             eventId = 4,
             eventName = "Yayati",
@@ -106,7 +110,8 @@ class MainActivity : BaseActivity() {
             bannerImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSoDY2drCDhHFg2HFp68k7HteKR_5eqA_7aMY2pV9ez0XNAf4xD",
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 13),
-            eventCategory = EventCategory.PLAY.name
+            eventCategory = EventCategory.PLAY.name,
+            seats = getSeats()
         ), Event(
             eventId = 5,
             eventName = "Andher Nagari",
@@ -114,7 +119,8 @@ class MainActivity : BaseActivity() {
             bannerImageUrl = "https://rukminim1.flixcart.com/image/416/416/kfbfr0w0/book/2/8/7/andher-nagari-original-imafvsxfzvbjghg6.jpeg?q=70",
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 14),
-            eventCategory = EventCategory.PLAY.name
+            eventCategory = EventCategory.PLAY.name,
+            seats = getSeats()
         ), Event(
             eventId = 6,
             eventName = "Hamlet",
@@ -122,7 +128,8 @@ class MainActivity : BaseActivity() {
             bannerImageUrl = "https://m.media-amazon.com/images/I/51A+CQpR2vL.jpg",
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 15),
-            eventCategory = EventCategory.PLAY.name
+            eventCategory = EventCategory.PLAY.name,
+            seats = getSeats()
         ), Event(
             eventId = 7,
             eventName = "Black Panther: Wakanda Forever",
@@ -130,7 +137,8 @@ class MainActivity : BaseActivity() {
             bannerImageUrl = "https://m.media-amazon.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_.jpg",
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 16),
-            eventCategory = EventCategory.MOVIE.name
+            eventCategory = EventCategory.MOVIE.name,
+            seats = getSeats()
         ), Event(
             eventId = 8,
             eventName = "The Guardians of the Galaxy: Holiday Special",
@@ -138,7 +146,19 @@ class MainActivity : BaseActivity() {
             bannerImageUrl = "https://m.media-amazon.com/images/M/MV5BOGJjMzlmNzctMWI4Yi00MjcyLWFmYzAtN2JmZjU0YTM4YmRmXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg",
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 17),
-            eventCategory = EventCategory.MOVIE.name
+            eventCategory = EventCategory.MOVIE.name,
+            seats = getSeats()
         )
     )
+
+    private fun getSeats(): ArrayList<Seat> {
+        val rows = "ABCDEFGHIJ"
+        val seatList = ArrayList<Seat>()
+        for (i in rows.indices) {
+            for (j in 1..15) {
+                seatList.add(Seat(rowId = "${rows[i]}", columnId = j))
+            }
+        }
+        return seatList
+    }
 }

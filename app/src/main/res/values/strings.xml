@@ -8,4 +8,7 @@
     <string name="book_events">Book\nEvents</string>
     <string name="your_n_bookings">Your \nBookings</string>
     <string name="your_account">Your \nAccount</string>
+    <string name="desc_back_button">Back Button</string>
+    <string name="book_seats">Book Seats</string>
+    <string name="event_name_with_time">%s \n %s</string>
 </resources>

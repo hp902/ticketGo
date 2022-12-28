@@ -9,7 +9,11 @@
         android:id="@+id/fragmentEvents"
         android:name="com.example.ticketgo.ui.events.EventsFragment"
         android:label="FragmentEvents"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events">
+        <action
+            android:id="@+id/action_fragmentEvents_to_ticketBookingFragment"
+            app:destination="@id/ticketBookingFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragmentsYourBookings"
@@ -22,6 +26,16 @@
         android:name="com.example.ticketgo.ui.account.AccountFragment"
         android:label="FragmentAccount"
         tools:layout="@layout/fragment_account" />
+
+    <fragment
+        android:id="@+id/ticketBookingFragment"
+        android:name="com.example.ticketgo.ui.ticket.TicketBookingFragment"
+        android:label="TicketBookingFragment"
+        tools:layout="@layout/fragment_ticket_booking">
+        <argument
+            android:name="eventId"
+            app:argType="integer" />
+    </fragment>
 
 
 </navigation>

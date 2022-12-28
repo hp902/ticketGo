@@ -39,7 +39,7 @@ class EventsAdapter(
             tvEventName.text = data.eventName
             tvStartTime.text = tvStartTime.context.getString(
                 R.string.start_time,
-                DateTimeUtils.convertDate(data.startTime)
+                DateTimeUtils.convertDateString(data.startTime, DateTimeUtils.TIME_DATE)
             )
             tvDuration.text = tvDuration.context.getString(
                 R.string.duration,

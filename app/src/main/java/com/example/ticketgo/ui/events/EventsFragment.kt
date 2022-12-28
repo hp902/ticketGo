@@ -1,9 +1,9 @@
 package com.example.ticketgo.ui.events
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ticketgo.R
 import com.example.ticketgo.base.BaseFragment
@@ -84,6 +84,7 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun onEventClicked(eventId: Int) {
-        Log.d("EventsFragment", "onEventClicked: $eventId")
+        val action = EventsFragmentDirections.actionFragmentEventsToTicketBookingFragment(eventId)
+        findNavController().navigate(action)
     }
 }

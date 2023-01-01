@@ -44,6 +44,7 @@ class EventViewModel(
                 eventDao.getAllEvents()
             }.onSuccess {
                 _eventsData.postValue(it)
+                Log.d(TAG, "getAllEvents: ")
             }.onFailure {
                 Log.e(TAG, "getAllEvents: ", it)
             }

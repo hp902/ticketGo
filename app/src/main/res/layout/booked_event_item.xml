@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvEventName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is my first event"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvEventTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="at 11:45 PM"
+        app:layout_constraintTop_toBottomOf="@id/tvEventName" />
+
+    <TextView
+        android:id="@+id/tvSeats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seats: A1, B2 B3 B5"
+        android:textColor="@color/red"
+        app:layout_constraintTop_toBottomOf="@id/tvEventTime" />
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/tvSeats"
+        android:layout_width="match_parent"
+        android:background="@color/red"
+        android:layout_height="1dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

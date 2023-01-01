@@ -4,10 +4,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.ticketgo.R
+import com.example.ticketgo.base.BaseActivity
 import com.example.ticketgo.base.BaseFragment
 import com.example.ticketgo.databinding.FragmentTicketBookingBinding
 import com.example.ticketgo.ui.events.Event
@@ -16,20 +16,15 @@ import com.example.ticketgo.ui.events.Seat
 import com.example.ticketgo.utils.DateTimeUtils
 import com.google.android.material.chip.Chip
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.properties.Delegates
 
 class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
-
-    companion object {
-        private const val TAG: String = "TicketBookingFragment"
-    }
 
     private lateinit var binding: FragmentTicketBookingBinding
 
     private val eventsViewModel by viewModel<EventViewModel>()
+    private val viewModel by viewModel<TicketBookingViewModel>()
 
-    private var eventId by Delegates.notNull<Int>()
-    private var eventList = MutableLiveData<ArrayList<Event>>()
+    private var eventDate: String = ""
 
     private lateinit var seatAdapter: SeatAdapter
 
@@ -41,18 +36,21 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
 
     override fun initData(view: View) {
         arguments?.let {
-            eventId = TicketBookingFragmentArgs.fromBundle(it).eventId
+            viewModel.eventId = TicketBookingFragmentArgs.fromBundle(it).eventId
+            eventDate = TicketBookingFragmentArgs.fromBundle(it).date
         } ?: run {
             findNavController().navigateUp()
         }
 
         binding.includeHeader.tvHeading.text = getString(R.string.book_seats)
+        binding.tvDate.text = eventDate
 
         seatAdapter = SeatAdapter(this)
 
         binding.rcvSeats.apply {
             layoutManager = GridLayoutManager(requireContext(), 15)
             adapter = seatAdapter
+            hasFixedSize()
         }
 
         binding.chipGroup.apply {
@@ -63,6 +61,19 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
 
         eventsViewModel.getEvents()
         eventsViewModel.eventsData.observe(viewLifecycleOwner) { onEventList(it as ArrayList<Event>) }
+
+        viewModel.selectedSeats.observe(viewLifecycleOwner) {
+            binding.tvSeats.text = getString(R.string.selected_seats, it ?: 0)
+            binding.btBookTicket.isEnabled = it > 0
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) {
+            if (it == true) {
+                (requireActivity() as BaseActivity).showLoadingDialog(true)
+            } else {
+                (requireActivity() as BaseActivity).showLoadingDialog(false)
+            }
+        }
     }
 
     override fun initListener(view: View) {
@@ -73,18 +84,21 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
         binding.chipGroup.setOnCheckedChangeListener { _, _ ->
             // Test
         }
+
+        binding.btBookTicket.setOnClickListener {
+            viewModel.bookTicket()
+        }
     }
 
     private fun onEventList(eventList: ArrayList<Event>) {
-        if (this.eventList.value == null || this.eventList.value?.isEmpty() == true) {
-            this.eventList.value = eventList
+        if (viewModel.eventList.isEmpty()) {
+            viewModel.eventList.addAll(eventList)
             setUpEventChips()
-            Log.d(TAG, "onEventList: ")
         }
     }
 
     private fun setUpEventChips() {
-        eventList.value!!.forEachIndexed { index, event ->
+        viewModel.eventList.forEachIndexed { index, event ->
             binding.chipGroup.addView(createTagChip(event, index))
         }
     }
@@ -96,16 +110,15 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
         ) as Chip
         val chipText = "${event.eventName}: ${
             DateTimeUtils.convertDateString(
-                event.startTime,
-                DateTimeUtils.TIME
+                event.startTime, DateTimeUtils.TIME
             )
         }"
         chip.text = chipText
         chip.isCheckedIconVisible = false
         chip.id = index
-        if (eventId == event.eventId) {
+        if (viewModel.eventId == event.eventId) {
             chip.isChecked = true
-            onEventChecked(eventId)
+            onEventChecked(viewModel.eventId)
         }
         chip.isClickable = true
         chip.isCheckable = true
@@ -118,13 +131,27 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
     }
 
     private fun onEventChecked(eventId: Int) {
-        this.eventId = eventId
-        seatAdapter.submitList(eventList.value?.get(eventId - 1)?.seats)
+        viewModel.eventId = eventId
+        seatAdapter.submitList(viewModel.eventList[eventId - 1].seats)
     }
 
-    override fun onItemClicked(seat: Seat, position: Int) {
-        eventList.value?.get(eventId - 1)?.seats?.get(position).apply {
-            this?.status = seat.status
-        }
+    override fun onItemClicked(seat: Seat, position: Int, status: Int) {
+        /*lifecycleScope.launch {
+            eventList.value?.get(eventId - 1)?.seats?.get(position).apply {
+                this?.status = seat.status
+            }
+            selectedSeats.postValue(selectedSeats.value?.plus(status) ?: status)
+            val eventSeats = selectedEvents[eventId]
+            if (status > 0) {
+                selectedEvents[eventId] = status.plus(eventSeats ?: 0)
+            } else {
+                if (eventSeats == 1 || eventSeats == 0 || eventSeats == null) {
+                    selectedEvents.remove(eventId)
+                } else {
+                    selectedEvents[eventId] = status.plus(eventSeats)
+                }
+            }
+        }*/
+        viewModel.onSeatSelected(seat, position, status)
     }
 }

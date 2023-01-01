@@ -25,9 +25,6 @@ class EventViewModel(
     private val _eventsCategory: MutableLiveData<List<EventType>> = MutableLiveData()
     val eventsCategory: LiveData<List<EventType>> = _eventsCategory
 
-    private val _eventObject: MutableLiveData<Event> = MutableLiveData()
-    val eventObject: LiveData<Event> = _eventObject
-
     init {
         getEventCategory()
         getAllEvents()
@@ -74,18 +71,6 @@ class EventViewModel(
                 _eventsCategory.postValue(it)
             }.onFailure {
                 Log.e(TAG, "getEventCategory: ", it)
-            }
-        }
-    }
-
-    private fun getEventByEventId(eventId: Int) {
-        viewModelScope.launch {
-            runCatching {
-                eventDao.getEventByEventID(eventId)
-            }.onSuccess {
-                _eventObject.postValue(it)
-            }.onFailure {
-                Log.e(TAG, "getEventByEventId: ", it)
             }
         }
     }

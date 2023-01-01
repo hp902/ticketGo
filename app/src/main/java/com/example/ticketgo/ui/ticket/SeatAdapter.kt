@@ -1,6 +1,7 @@
 package com.example.ticketgo.ui.ticket
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,7 +15,7 @@ class SeatAdapter(private val listener: OnClickListener) :
     ListAdapter<Seat, SeatAdapter.ViewHolder>(DiffUtilCall()) {
 
     interface OnClickListener {
-        fun onItemClicked(seat: Seat, position: Int)
+        fun onItemClicked(seat: Seat, position: Int, status: Int)
     }
 
     inner class ViewHolder(val binding: SeatItemBinding) :
@@ -33,15 +34,15 @@ class SeatAdapter(private val listener: OnClickListener) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)
         with(holder.binding) {
+            val seat = "${data.rowId}${data.columnId}"
+            tvSeatNumber.text = seat
             when (data.status) {
                 Constants.SEAT_BOOKED -> {
                     cvSeat.apply {
                         isEnabled = false
-                        setCardBackgroundColor(resources.getColor(R.color.red_light, null))
+                        setCardBackgroundColor(resources.getColor(R.color.purple_200, null))
                     }
-                    tvSeatNumber.apply {
-                        setTextColor(resources.getColor(R.color.white, null))
-                    }
+                    tvSeatNumber.visibility = View.GONE
                 }
                 Constants.SEAT_SELECTED -> {
                     cvSeat.apply {
@@ -61,18 +62,16 @@ class SeatAdapter(private val listener: OnClickListener) :
                 }
             }
 
-            val seat = "${data.rowId} ${data.columnId}"
-            tvSeatNumber.text = seat
             cvSeat.setOnClickListener {
                 if (data.status == Constants.SEAT_EMPTY) {
                     listener.onItemClicked(data.apply {
                         status = Constants.SEAT_SELECTED
-                    }, position)
+                    }, position, 1)
                     notifyItemChanged(position)
                 } else if (data.status == Constants.SEAT_SELECTED) {
                     listener.onItemClicked(data.apply {
                         status = Constants.SEAT_EMPTY
-                    }, position)
+                    }, position, -1)
                     notifyItemChanged(position)
                 }
             }

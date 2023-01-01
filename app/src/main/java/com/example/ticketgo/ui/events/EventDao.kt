@@ -5,8 +5,11 @@ import androidx.room.*
 @Dao
 interface EventDao {
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addEvent(vararg events: Event): List<Long>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addEvent(vararg events: Event)
+    suspend fun addEventUpdate(vararg events: Event): List<Long>
 
     @Query("SELECT * FROM EVENT ORDER BY eventId ASC")
     suspend fun getAllEvents(): List<Event>

@@ -12,12 +12,15 @@ import com.example.ticketgo.ui.event_type.EventType
 import com.example.ticketgo.ui.events.Event
 import com.example.ticketgo.ui.events.Seat
 import com.example.ticketgo.utils.DateTimeUtils
+import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModel()
+
+    private var seats = ArrayList<Seat>()
 
     override fun initView() {
         installSplashScreen()
@@ -26,6 +29,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
+
+        getSeats()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
@@ -82,7 +87,7 @@ class MainActivity : BaseActivity() {
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 10),
             eventCategory = EventCategory.COMEDY.name,
-            seats = getSeats()
+            seats = seats
         ),
         Event(
             eventId = 2,
@@ -92,7 +97,7 @@ class MainActivity : BaseActivity() {
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 11),
             eventCategory = EventCategory.COMEDY.name,
-            seats = getSeats()
+            seats = seats
         ),
         Event(
             eventId = 3,
@@ -102,7 +107,7 @@ class MainActivity : BaseActivity() {
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 12),
             eventCategory = EventCategory.COMEDY.name,
-            seats = getSeats()
+            seats = seats
         ), Event(
             eventId = 4,
             eventName = "Yayati",
@@ -111,7 +116,7 @@ class MainActivity : BaseActivity() {
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 13),
             eventCategory = EventCategory.PLAY.name,
-            seats = getSeats()
+            seats = seats
         ), Event(
             eventId = 5,
             eventName = "Andher Nagari",
@@ -120,7 +125,7 @@ class MainActivity : BaseActivity() {
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 14),
             eventCategory = EventCategory.PLAY.name,
-            seats = getSeats()
+            seats = seats
         ), Event(
             eventId = 6,
             eventName = "Hamlet",
@@ -129,7 +134,7 @@ class MainActivity : BaseActivity() {
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 15),
             eventCategory = EventCategory.PLAY.name,
-            seats = getSeats()
+            seats = seats
         ), Event(
             eventId = 7,
             eventName = "Black Panther: Wakanda Forever",
@@ -138,7 +143,7 @@ class MainActivity : BaseActivity() {
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 16),
             eventCategory = EventCategory.MOVIE.name,
-            seats = getSeats()
+            seats = seats
         ), Event(
             eventId = 8,
             eventName = "The Guardians of the Galaxy: Holiday Special",
@@ -147,11 +152,11 @@ class MainActivity : BaseActivity() {
             eventDurationSecond = 3600,
             startTime = DateTimeUtils.getNextDayTime(hourOfDay = 17),
             eventCategory = EventCategory.MOVIE.name,
-            seats = getSeats()
+            seats = seats
         )
     )
 
-    private fun getSeats(): ArrayList<Seat> {
+    private fun getSeats() {
         val rows = "ABCDEFGHIJ"
         val seatList = ArrayList<Seat>()
         for (i in rows.indices) {
@@ -159,6 +164,6 @@ class MainActivity : BaseActivity() {
                 seatList.add(Seat(rowId = "${rows[i]}", columnId = j))
             }
         }
-        return seatList
+        seats = seatList
     }
 }

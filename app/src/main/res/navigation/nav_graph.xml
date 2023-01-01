@@ -35,6 +35,9 @@
         <argument
             android:name="eventId"
             app:argType="integer" />
+        <argument
+            android:name="date"
+            app:argType="string" />
     </fragment>
 
 

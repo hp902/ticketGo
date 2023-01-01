@@ -1,6 +1,5 @@
 package com.example.ticketgo.ui.ticket
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.example.ticketgo.ui.events.Event
 import com.example.ticketgo.ui.events.EventViewModel
 import com.example.ticketgo.ui.events.Seat
 import com.example.ticketgo.utils.DateTimeUtils
+import com.example.ticketgo.utils.toast
 import com.google.android.material.chip.Chip
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -72,6 +72,8 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
                 (requireActivity() as BaseActivity).showLoadingDialog(true)
             } else {
                 (requireActivity() as BaseActivity).showLoadingDialog(false)
+                toast("Ticket Booked")
+                findNavController().navigateUp()
             }
         }
     }
@@ -136,22 +138,6 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
     }
 
     override fun onItemClicked(seat: Seat, position: Int, status: Int) {
-        /*lifecycleScope.launch {
-            eventList.value?.get(eventId - 1)?.seats?.get(position).apply {
-                this?.status = seat.status
-            }
-            selectedSeats.postValue(selectedSeats.value?.plus(status) ?: status)
-            val eventSeats = selectedEvents[eventId]
-            if (status > 0) {
-                selectedEvents[eventId] = status.plus(eventSeats ?: 0)
-            } else {
-                if (eventSeats == 1 || eventSeats == 0 || eventSeats == null) {
-                    selectedEvents.remove(eventId)
-                } else {
-                    selectedEvents[eventId] = status.plus(eventSeats)
-                }
-            }
-        }*/
         viewModel.onSeatSelected(seat, position, status)
     }
 }

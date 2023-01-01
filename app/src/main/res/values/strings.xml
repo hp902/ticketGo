@@ -12,4 +12,6 @@
     <string name="book_seats">Book Seats</string>
     <string name="event_name_with_time">%s \n %s</string>
     <string name="selected_seats">%d Seats Selected</string>
+    <string name="booked_events">Booked Events:</string>
+    <string name="ticket_number">Ticket No. %d</string>
 </resources>

@@ -7,8 +7,8 @@ import com.example.ticketgo.utils.Constants
 
 @Entity
 data class Ticket(
-    @PrimaryKey
-    val ticketId: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    val ticketId: Int? = null,
     val events: ArrayList<BookedEvents>,
     val createdAt: String,
     val ticketStatus: String = Constants.TICKET_BOOKED
@@ -16,6 +16,7 @@ data class Ticket(
 
 data class BookedEvents(
     val eventId: Int,
+    val eventName: String,
     val startTime: String,
     val seats: ArrayList<Seat>
 )

@@ -38,6 +38,11 @@
         <argument
             android:name="date"
             app:argType="string" />
+        <action
+            android:id="@+id/action_ticketBookingFragment_to_fragmentsYourBookings"
+            app:destination="@id/fragmentsYourBookings"
+            app:popUpTo="@id/fragmentsYourBookings"
+            app:popUpToInclusive="true" />
     </fragment>
 
 

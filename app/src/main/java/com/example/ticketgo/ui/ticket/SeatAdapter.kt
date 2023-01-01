@@ -34,7 +34,7 @@ class SeatAdapter(private val listener: OnClickListener) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)
         with(holder.binding) {
-            val seat = "${data.rowId}${data.columnId}"
+            val seat = data.rowId + data.columnId
             tvSeatNumber.text = seat
             when (data.status) {
                 Constants.SEAT_BOOKED -> {
@@ -51,6 +51,7 @@ class SeatAdapter(private val listener: OnClickListener) :
                     tvSeatNumber.apply {
                         setTextColor(resources.getColor(R.color.white, null))
                     }
+                    tvSeatNumber.visibility = View.VISIBLE
                 }
                 Constants.SEAT_EMPTY -> {
                     cvSeat.apply {
@@ -59,6 +60,7 @@ class SeatAdapter(private val listener: OnClickListener) :
                     tvSeatNumber.apply {
                         setTextColor(resources.getColor(R.color.black, null))
                     }
+                    tvSeatNumber.visibility = View.VISIBLE
                 }
             }
 

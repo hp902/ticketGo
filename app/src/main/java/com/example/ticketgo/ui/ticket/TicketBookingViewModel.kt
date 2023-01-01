@@ -37,9 +37,13 @@ class TicketBookingViewModel(
                 eventList.forEach { event ->
                     if (selectedEvents.containsKey(event.eventId)) {
                         val bookedEvent =
-                            BookedEvents(event.eventId, event.startTime, event.seats.filter {
-                                it.status == Constants.SEAT_SELECTED
-                            } as ArrayList<Seat>)
+                            BookedEvents(
+                                event.eventId,
+                                event.eventName,
+                                event.startTime,
+                                event.seats.filter {
+                                    it.status == Constants.SEAT_SELECTED
+                                } as ArrayList<Seat>)
                         bookedEventList.add(bookedEvent)
                         event.seats.forEach {
                             if (it.status == Constants.SEAT_SELECTED)

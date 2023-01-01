@@ -9,6 +9,7 @@ import com.example.ticketgo.ui.events.EventDao
 import com.example.ticketgo.ui.events.EventViewModel
 import com.example.ticketgo.ui.ticket.TicketBookingViewModel
 import com.example.ticketgo.ui.ticket.TicketDao
+import com.example.ticketgo.ui.your_bookings.YourBookingsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -17,14 +18,13 @@ val AppModule = module {
     viewModel { MainViewModel(get(), get()) }
     viewModel { EventViewModel(get(), get()) }
     viewModel { TicketBookingViewModel(get(), get()) }
+    viewModel { YourBookingsViewModel(get()) }
 }
 
 val UserDB = module {
     fun provideDataBase(application: Application): AppDataBase {
         return Room.databaseBuilder(
-            application.applicationContext,
-            AppDataBase::class.java,
-            "event_database"
+            application.applicationContext, AppDataBase::class.java, "event_database"
         ).build()
     }
 

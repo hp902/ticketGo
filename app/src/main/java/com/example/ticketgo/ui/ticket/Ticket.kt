@@ -11,7 +11,7 @@ data class Ticket(
     val ticketId: Int? = null,
     val events: ArrayList<BookedEvents>,
     val createdAt: String,
-    val ticketStatus: String = Constants.TICKET_BOOKED
+    var ticketStatus: String = Constants.TICKET_BOOKED
 )
 
 data class BookedEvents(

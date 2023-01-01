@@ -19,4 +19,7 @@ interface EventDao {
 
     @Query("SELECT * FROM EVENT WHERE eventId = :id")
     suspend fun getEventByEventID(id: Int): Event
+
+    @Update
+    suspend fun updateEvent(event: Event)
 }

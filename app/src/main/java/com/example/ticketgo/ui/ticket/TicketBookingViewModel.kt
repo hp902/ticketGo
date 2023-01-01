@@ -26,6 +26,9 @@ class TicketBookingViewModel(
     private var selectedEvents = HashMap<Int, Int>()
     var selectedSeats = MutableLiveData(0)
 
+    private val _eventsData: MutableLiveData<List<Event>> = MutableLiveData()
+    val eventsData: LiveData<List<Event>> = _eventsData
+
     private var _loading: MutableLiveData<Boolean> = MutableLiveData()
     val loading: LiveData<Boolean> = _loading
 
@@ -95,6 +98,18 @@ class TicketBookingViewModel(
                 Log.d(TAG, "updateEvents: ")
             }.onFailure {
                 Log.e(TAG, "updateEvents: ", it)
+            }
+        }
+    }
+
+    fun getAllEvents() {
+        viewModelScope.launch {
+            runCatching {
+                eventDao.getAllEvents()
+            }.onSuccess {
+                _eventsData.postValue(it)
+            }.onFailure {
+                Log.e(TAG, "getAllEvents: ", it)
             }
         }
     }

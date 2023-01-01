@@ -1,10 +1,6 @@
 package com.example.ticketgo.ui.ticket
 
-import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface TicketDao {
@@ -14,5 +10,8 @@ interface TicketDao {
 
     @Query("SELECT * FROM Ticket ORDER BY ticketId DESC")
     suspend fun getAllTickets(): List<Ticket>
+
+    @Update
+    suspend fun changeTicketStatus(ticket: Ticket): Int
 
 }

@@ -23,6 +23,14 @@ class DateTimeUtils {
             return simpleDateFormatFrom.format(Date())
         }
 
+        fun getCurrentTimeForFile():String{
+            val simpleDateFormatFrom = SimpleDateFormat(
+                "HHmmss", Locale.getDefault()
+            )
+            simpleDateFormatFrom.timeZone = TimeZone.getDefault()
+            return simpleDateFormatFrom.format(Date())
+        }
+
 
         /**
          * Convert dateString into readable format

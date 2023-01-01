@@ -18,7 +18,7 @@ val AppModule = module {
     viewModel { MainViewModel(get(), get()) }
     viewModel { EventViewModel(get(), get()) }
     viewModel { TicketBookingViewModel(get(), get()) }
-    viewModel { YourBookingsViewModel(get()) }
+    viewModel { YourBookingsViewModel(get(), get()) }
 }
 
 val UserDB = module {

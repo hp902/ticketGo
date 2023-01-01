@@ -18,6 +18,7 @@ data class Event(
 )
 
 data class Seat(
+    val id: Int,
     val rowId: String,
     var columnId: Int,
     var status: String? = Constants.SEAT_EMPTY

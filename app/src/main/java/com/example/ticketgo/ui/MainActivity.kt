@@ -159,9 +159,10 @@ class MainActivity : BaseActivity() {
     private fun getSeats() {
         val rows = "ABCDEFGHIJ"
         val seatList = ArrayList<Seat>()
+        var id = 0
         for (i in rows.indices) {
             for (j in 1..15) {
-                seatList.add(Seat(rowId = "${rows[i]}", columnId = j))
+                seatList.add(Seat(id++, rowId = "${rows[i]}", columnId = j))
             }
         }
         seats = seatList

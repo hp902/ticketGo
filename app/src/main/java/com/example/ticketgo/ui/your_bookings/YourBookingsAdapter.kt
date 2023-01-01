@@ -1,6 +1,7 @@
 package com.example.ticketgo.ui.your_bookings
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,10 +11,16 @@ import com.example.ticketgo.R
 import com.example.ticketgo.databinding.TicketItemBinding
 import com.example.ticketgo.ui.ticket.Ticket
 import com.example.ticketgo.utils.Constants
+import com.example.ticketgo.utils.DateTimeUtils
 
 class YourBookingsAdapter(
-    private val onItemClicked: (Ticket) -> Unit
+    private val listener: ClickListener
 ) : ListAdapter<Ticket, YourBookingsAdapter.ViewHolder>(DiffUtilCall) {
+
+    interface ClickListener {
+        fun onCancelClicked(ticket: Ticket)
+        fun onDownloadClicked(view: View, fileName: String)
+    }
 
     inner class ViewHolder(val binding: TicketItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -37,6 +44,10 @@ class YourBookingsAdapter(
                 layoutManager = LinearLayoutManager(this.context)
                 adapter = adapterEvent
             }
+            val booked = "Booked at: " +
+                    DateTimeUtils.convertDateString(data.createdAt, DateTimeUtils.TIME_DATE)
+            tvBookedDate.text = booked
+
             when (data.ticketStatus) {
                 Constants.TICKET_CANCELED -> {
                     btCancelTicket.isEnabled = false
@@ -47,9 +58,13 @@ class YourBookingsAdapter(
                     btCancelTicket.text = "Cancel Ticket"
                 }
             }
-
             btCancelTicket.setOnClickListener {
-                onItemClicked(data)
+                listener.onCancelClicked(data)
+            }
+
+            btDownload.setOnClickListener {
+                val fileName = "Ticket_${data.ticketId}_${DateTimeUtils.getCurrentTimeForFile()}"
+                listener.onDownloadClicked(root, fileName)
             }
         }
     }

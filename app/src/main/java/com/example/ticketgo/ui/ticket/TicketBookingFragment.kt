@@ -10,7 +10,6 @@ import com.example.ticketgo.base.BaseActivity
 import com.example.ticketgo.base.BaseFragment
 import com.example.ticketgo.databinding.FragmentTicketBookingBinding
 import com.example.ticketgo.ui.events.Event
-import com.example.ticketgo.ui.events.EventViewModel
 import com.example.ticketgo.ui.events.Seat
 import com.example.ticketgo.utils.DateTimeUtils
 import com.example.ticketgo.utils.toast
@@ -21,7 +20,6 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
 
     private lateinit var binding: FragmentTicketBookingBinding
 
-    private val eventsViewModel by viewModel<EventViewModel>()
     private val viewModel by viewModel<TicketBookingViewModel>()
 
     private var eventDate: String = ""
@@ -59,8 +57,8 @@ class TicketBookingFragment : BaseFragment(), SeatAdapter.OnClickListener {
             isSelectionRequired = true
         }
 
-        eventsViewModel.getEvents()
-        eventsViewModel.eventsData.observe(viewLifecycleOwner) { onEventList(it as ArrayList<Event>) }
+        viewModel.getAllEvents()
+        viewModel.eventsData.observe(viewLifecycleOwner) { onEventList(it as ArrayList<Event>) }
 
         viewModel.selectedSeats.observe(viewLifecycleOwner) {
             binding.tvSeats.text = getString(R.string.selected_seats, it ?: 0)

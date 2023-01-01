@@ -7,9 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ticketgo.base.BaseFragment
 import com.example.ticketgo.databinding.FragmentYourBookingsBinding
 import com.example.ticketgo.ui.ticket.Ticket
+import com.example.ticketgo.utils.FileUtil
+import com.example.ticketgo.utils.toast
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class YourBookingsFragment : BaseFragment() {
+class YourBookingsFragment : BaseFragment(), YourBookingsAdapter.ClickListener {
 
     private lateinit var binding: FragmentYourBookingsBinding
     private lateinit var adapter: YourBookingsAdapter
@@ -22,15 +27,13 @@ class YourBookingsFragment : BaseFragment() {
     }
 
     override fun initData(view: View) {
-        adapter = YourBookingsAdapter {
-            onTicketCanceledClicked(it)
-        }
+        adapter = YourBookingsAdapter(this)
 
         binding.rcvYourBooking.layoutManager = LinearLayoutManager(requireContext())
         binding.rcvYourBooking.adapter = adapter
 
         viewModel.getTickets()
-        viewModel.tickerData.observe(viewLifecycleOwner) { onTicketData(it) }
+        viewModel.ticketData.observe(viewLifecycleOwner) { onTicketData(it) }
     }
 
     override fun initListener(view: View) {
@@ -41,7 +44,15 @@ class YourBookingsFragment : BaseFragment() {
         adapter.submitList(it)
     }
 
-    private fun onTicketCanceledClicked(it: Ticket) {
+    override fun onCancelClicked(ticket: Ticket) {
+        viewModel.cancelTicket(ticket)
+    }
 
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun onDownloadClicked(view: View, fileName: String) {
+        GlobalScope.launch {
+            FileUtil.createPdf(view, requireActivity(), fileName,requireContext())
+            toast("Ticket Downloaded successfully")
+        }
     }
 }

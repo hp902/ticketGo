@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red_light">#F44336</color>
     <color name="red">#FF0000</color>
+    <color name="red_seat">#F8A5A0</color>
 </resources>

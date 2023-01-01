@@ -6,6 +6,11 @@ import java.util.*
 class DateTimeUtils {
     companion object {
 
+        const val TIME = 1
+        const val TIME_DATE_DAY = 2
+        const val TIME_DATE = 3
+        const val DATE = 4
+
         /**
          * Get the Current Date Time
          * @return DateString in format of "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -18,14 +23,22 @@ class DateTimeUtils {
             return simpleDateFormatFrom.format(Date())
         }
 
+        fun getCurrentTimeForFile():String{
+            val simpleDateFormatFrom = SimpleDateFormat(
+                "HHmmss", Locale.getDefault()
+            )
+            simpleDateFormatFrom.timeZone = TimeZone.getDefault()
+            return simpleDateFormatFrom.format(Date())
+        }
+
 
         /**
-         * Convert dateString in readable format
+         * Convert dateString into readable format
          * @param dateString DateString in format of "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-         * @param includeDayOfWeek Set this param to true if Day Name is needed. Default is false
+         * @param flag Set the return string format
          * @return DateString eg:- 10:05 PM 25 Dec 2022
          */
-        fun convertDate(dateString: String, includeDayOfWeek: Boolean? = false): String {
+        fun convertDateString(dateString: String, flag: Int): String {
             if (dateString == "") {
                 return ""
             }
@@ -38,10 +51,15 @@ class DateTimeUtils {
                 simpleDateFormatFrom.timeZone = TimeZone.getDefault()
                 print(TimeZone.getDefault().displayName)
                 val date = simpleDateFormatFrom.parse(dateString)
-                val simpleDateFormatTo: SimpleDateFormat = if (includeDayOfWeek == true) {
-                    SimpleDateFormat("hh:mm aa dd MMM yyyy, EEEE", Locale.getDefault())
-                } else {
-                    SimpleDateFormat("hh:mm aa dd MMM yyyy", Locale.getDefault())
+                val simpleDateFormatTo: SimpleDateFormat = when (flag) {
+                    TIME -> SimpleDateFormat("hh:mm aa", Locale.getDefault())
+                    TIME_DATE -> SimpleDateFormat("hh:mm aa dd MMM yyyy", Locale.getDefault())
+                    TIME_DATE_DAY -> SimpleDateFormat(
+                        "hh:mm aa dd MMM yyyy, EEEE",
+                        Locale.getDefault()
+                    )
+                    DATE -> SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+                    else -> SimpleDateFormat("hh:mm aa dd MMM yyyy, EEEE", Locale.getDefault())
                 }
                 simpleDateFormatTo.timeZone = TimeZone.getDefault()
                 convertedDate = simpleDateFormatTo.format(date!!)

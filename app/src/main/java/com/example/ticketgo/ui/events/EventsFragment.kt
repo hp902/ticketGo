@@ -1,14 +1,15 @@
 package com.example.ticketgo.ui.events
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ticketgo.R
 import com.example.ticketgo.base.BaseFragment
 import com.example.ticketgo.databinding.FragmentEventsBinding
 import com.example.ticketgo.ui.event_type.EventType
+import com.example.ticketgo.utils.DateTimeUtils
 import com.google.android.material.chip.Chip
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,7 +29,7 @@ class EventsFragment : BaseFragment() {
     override fun initData(view: View) {
 
         adapter = EventsAdapter { event: Event ->
-            onEventClicked(event.eventId)
+            onEventClicked(event.eventId, event.startTime)
         }
 
         binding.rcvEvents.layoutManager = LinearLayoutManager(requireContext())
@@ -73,6 +74,7 @@ class EventsFragment : BaseFragment() {
         chip.id = index
         if (index == 0) {
             chip.isChecked = true
+            viewModel.getEvents(chip.tag as String)
         }
         chip.isClickable = true
         chip.isCheckable = true
@@ -83,7 +85,11 @@ class EventsFragment : BaseFragment() {
         viewModel.getEvents(eventCategory)
     }
 
-    private fun onEventClicked(eventId: Int) {
-        Log.d("EventsFragment", "onEventClicked: $eventId")
+    private fun onEventClicked(eventId: Int, startTime: String) {
+        val action = EventsFragmentDirections.actionFragmentEventsToTicketBookingFragment(
+            eventId,
+            DateTimeUtils.convertDateString(startTime, DateTimeUtils.DATE)
+        )
+        findNavController().navigate(action)
     }
 }
